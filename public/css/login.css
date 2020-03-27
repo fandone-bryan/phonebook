@@ -52,7 +52,7 @@ main#login-page {
   margin-bottom: 10px;
 }
 /**************************************************/
-.login-content {
+.login-content form {
   display: flex;
   flex-direction: column;
 }

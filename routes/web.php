@@ -14,3 +14,5 @@
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::post('/users', 'UserController@store');
