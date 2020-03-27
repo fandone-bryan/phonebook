@@ -22,32 +22,32 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'signup_email' => 'required|email',
             'password' => 'required',
         ], [
             'name.required' => 'Preencha seu nome.',
-            'email.required' => 'Preencha seu e-mail',
-            'email.email' => 'E-mail inválido',
+            'signup_email.required' => 'Preencha seu e-mail',
+            'signup_email.email' => 'E-mail inválido',
             'password.required' => 'Preencha sua senha'
         ]);
 
         if ($validator->fails()) {
             $request->session()->put('form', 'signup');
-            return back()->withErrors($validator);
+            return back()->withInput($request->all)->withErrors($validator);
         }
         
-        $userExists = (User::where('email', $request->email)->get())->toArray();
+        $userExists = (User::where('email', $request->signup_email)->get())->toArray();
 
         if ($userExists) {
             $request->session()->put('form', 'signup');
 
-            return back()->withErrors(['user_exists' => 'E-mail já cadastrado']);
+            return back()->withInput($request->all)->withErrors(['user_exists' => 'E-mail já cadastrado']);
         }
 
         $user = new User;
 
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->email = $request->signup_email;
         $user->password = Hash::make($request->password);
         $user->occupation = $request->occupation;
 
