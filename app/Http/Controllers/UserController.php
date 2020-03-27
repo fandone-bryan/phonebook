@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 use App\User;
-use App\Http\Requests\StoreUser;
-
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -18,21 +17,35 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUser $request)
+    public function store(Request $request)
     {
 
-        $userExists = (User::where('email', $request->email)->get())->toArray();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+        ], [
+            'name.required' => 'Preencha seu nome.',
+            'email.required' => 'Preencha seu e-mail',
+            'email.email' => 'E-mail inválido',
+            'password.required' => 'Preencha sua senha'
+        ]);
+
+        if ($validator->fails()) {
+            $request->session()->put('form', 'signup');
+            return back()->withErrors($validator);
+        }
         
+        $userExists = (User::where('email', $request->email)->get())->toArray();
+
         if ($userExists) {
             $request->session()->put('form', 'signup');
 
-            return back()->withErrors(['user_exists' => 'Usuário já cadastrado']);;
+            return back()->withErrors(['user_exists' => 'E-mail já cadastrado']);
         }
 
-        echo 'não existe';
-        exit;
         $user = new User;
-        
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
