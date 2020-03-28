@@ -30,13 +30,14 @@
             <div class="collapse navbar-collapse navbar-right" id="navbarNav">
                 <div class="nav-links">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Clientes <span class="sr-only">(current)</span></a>
+                        <?php $pagina = Request::route()->uri; ?>
+                        <li class="nav-item <?= $pagina == '/' ? 'active' : ''?>">
+                            <a class="nav-link" href="#">Clientes</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= $pagina == 'usuarios' ? 'active' : ''?>">
                             <a class="nav-link" href="#">Usuários</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= $pagina == 'grupos' ? 'active' : ''?>">
                             <a class="nav-link" href="#">Grupos</a>
                         </li>
                     </ul>
@@ -44,7 +45,8 @@
                 <div class="navbar-user">
                     <div class="dropdown">
                         <a class="dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false"><span>Bryan Alves</span>&nbsp;<i class="fas fa-user fa-fw"></i></a>
+                            aria-haspopup="true" aria-expanded="false"><span>Bryan Alves</span>&nbsp;<i
+                                class="fas fa-user fa-fw"></i></a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#">Alterar senha</a>
                             <a class="dropdown-item" href="#">Logs</a>
