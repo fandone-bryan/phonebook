@@ -52,6 +52,15 @@ class UserController extends Controller
         $user->occupation = $request->occupation;
 
         $user->save();
+
+        $request->session()->forget('form');
+
+        $request->session()->put('auth.id', $user->id);
+        $request->session()->put('auth.name', $user->name);
+        $request->session()->put('auth.email', $user->email);
+        $request->session()->put('auth.occupation', $user->occupation);
+
+        return redirect('/');
     }
 
     /**

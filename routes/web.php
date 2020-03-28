@@ -15,5 +15,12 @@ Route::get('/login', function () {
     return view('login');
 });
 
-Route::post('/auth', 'AuthController@store');
+Route::post('/auth', 'SessionController@store');
+Route::get('/logout', 'SessionController@destroy');
+
 Route::post('/users', 'UserController@store');
+
+
+Route::group(['middleware' => 'auth'], function () use ($router) { 
+    Route::get('/', 'CostumerController@index');    
+});

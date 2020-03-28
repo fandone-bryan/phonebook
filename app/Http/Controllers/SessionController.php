@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\User;
 
-class AuthController extends Controller
+class SessionController extends Controller
 {
     public function store(Request $request)
     {
@@ -43,5 +43,14 @@ class AuthController extends Controller
         $request->session()->put('auth.name', $user->name);
         $request->session()->put('auth.email', $user->email);
         $request->session()->put('auth.occupation', $user->occupation);
+        
+        return redirect('/');
+    }
+
+    public function destroy(Request $request)
+    {
+        $request->session()->forget('auth');
+
+        return redirect('/login');
     }
 }

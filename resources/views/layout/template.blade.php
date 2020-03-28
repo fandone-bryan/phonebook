@@ -45,13 +45,13 @@
                 <div class="navbar-user">
                     <div class="dropdown">
                         <a class="dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false"><span>Bryan Alves</span>&nbsp;<i
+                            aria-haspopup="true" aria-expanded="false"><span>{{ Session::get('auth.name') }}</span>&nbsp;<i
                                 class="fas fa-user fa-fw"></i></a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#">Alterar senha</a>
                             <a class="dropdown-item" href="#">Logs</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="login.html">Sair</a>
+                            <a class="dropdown-item" href="/logout">Sair</a>
                         </div>
                     </div>
                 </div>
