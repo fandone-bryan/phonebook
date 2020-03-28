@@ -7,7 +7,6 @@
 
 html, body {
   height: 100%;
-  background-color: #ddd;
 }
 
 body, input, button {
@@ -34,4 +33,16 @@ button {
 
 .warning ul {
   list-style-type: none;
+}
+
+.navbar-brand {
+  color: #04a2b3!important;
+}
+
+a {
+  color: #fff;
+}
+
+a:hover {
+  color: #fff;
 }
