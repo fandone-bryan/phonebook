@@ -15,11 +15,11 @@
 </head>
 
 <body>
-    <div style="background:#3f4a59">
-        <nav class="navbar navbar-dark navbar-expand-md" style="width:100%; max-width:980px;margin: 0 auto;">
+    <div class="navbar-container">
+        <nav class="navbar navbar-dark navbar-expand-md">
             <div class="navbar-left">
                 <a class="navbar-brand" href="/">
-                    <img src="/logo.png" style="height: 32px;" />
+                    <img class="navbar-logo" src="/logo.png">
                     PhoneBook
                 </a>
             </div>
