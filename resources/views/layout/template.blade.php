@@ -31,7 +31,8 @@
                 <div class="nav-links">
                     <ul class="navbar-nav">
                         <?php $pagina = explode('/',Request::route()->uri)[0]; ?>
-                        <li class="nav-item <?= $pagina == '/' || $pagina == 'clientes' ? 'active' : ''?>">
+                        
+                        <li class="nav-item <?= $pagina == '' || $pagina == 'clientes' ? 'active' : ''?>">
                             <a class="nav-link" href="/">Clientes</a>
                         </li>
                         <li class="nav-item <?= $pagina == 'usuarios' ? 'active' : ''?>">

@@ -17,24 +17,14 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($customers as $customer)
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+                <th scope="row">{{ $customer->id }}</th>
+                <td>{{ $customer->name }}</td>
+                <td>{{ $customer->email }}</td>
                 <td class="text-center"><img src="/phone.png" style="width:28px"></td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td class="text-center"><img src="/phone.png" style="width:28px"></td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td class="text-center"><img src="/phone.png" style="width:28px"></td>
-            </tr>
+            @endforeach            
         </tbody>
     </table>
 </main>
