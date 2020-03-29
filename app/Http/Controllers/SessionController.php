@@ -39,17 +39,17 @@ class SessionController extends Controller
         
         $request->session()->forget('form');
 
-        $request->session()->put('auth.id', $user->id);
-        $request->session()->put('auth.name', $user->name);
-        $request->session()->put('auth.email', $user->email);
-        $request->session()->put('auth.occupation', $user->occupation);
+        $request->session()->put('user.id', $user->id);
+        $request->session()->put('user.name', $user->name);
+        $request->session()->put('user.email', $user->email);
+        $request->session()->put('user.occupation', $user->occupation);
         
         return redirect('/');
     }
 
     public function destroy(Request $request)
     {
-        $request->session()->forget('auth');
+        $request->session()->forget('user');
 
         return redirect('/login');
     }

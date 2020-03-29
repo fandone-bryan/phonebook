@@ -16,7 +16,7 @@ class Auth
     public function handle($request, Closure $next)
     {
 
-        if (empty($request->session()->get('auth'))) {
+        if (empty($request->session()->get('user'))) {
             return redirect('/login');
         }
 
