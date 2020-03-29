@@ -5,7 +5,7 @@
 <main class="page-container">
     <header class="page-header">
         <span class="default-color">Clientes</span>
-        <button class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Adicionar cliente</button>
+        <a href="/clientes/criar" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Adicionar cliente</a>
     </header>
     <table class="table">
         <thead class="default-background text-white">

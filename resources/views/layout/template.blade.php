@@ -30,9 +30,9 @@
             <div class="collapse navbar-collapse navbar-right" id="navbarNav">
                 <div class="nav-links">
                     <ul class="navbar-nav">
-                        <?php $pagina = Request::route()->uri; ?>
-                        <li class="nav-item <?= $pagina == '/' ? 'active' : ''?>">
-                            <a class="nav-link" href="#">Clientes</a>
+                        <?php $pagina = explode('/',Request::route()->uri)[0]; ?>
+                        <li class="nav-item <?= $pagina == '/' || $pagina == 'clientes' ? 'active' : ''?>">
+                            <a class="nav-link" href="/">Clientes</a>
                         </li>
                         <li class="nav-item <?= $pagina == 'usuarios' ? 'active' : ''?>">
                             <a class="nav-link" href="#">Usuários</a>
@@ -45,7 +45,7 @@
                 <div class="navbar-user">
                     <div class="dropdown">
                         <a class="dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false"><span>{{ Session::get('auth.name') }}</span>&nbsp;<i
+                            aria-haspopup="true" aria-expanded="false"><span>{{ Session::get('user.name') }}</span>&nbsp;<i
                                 class="fas fa-user fa-fw"></i></a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#">Alterar senha</a>
