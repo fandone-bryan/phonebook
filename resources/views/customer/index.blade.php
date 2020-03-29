@@ -24,7 +24,7 @@
                 <td>{{ $customer->email }}</td>
                 <td class="text-center">
                     <button type="button" class="btn"
-                        onclick="loadPhoneNumbers({{ $customer->id }}, '{{ $customer->name }}')">
+                        onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')">
                         <img src="/phone.png" style="width:28px">
                     </button>
                 </td>
@@ -49,32 +49,8 @@
                 <span class="default-color-dark">Detalhes do contato</span>
                 <div style="padding:20px 15px 0px 20px">
                     <div style="" class="d-flex">
-                        <ul style="list-style: none;margin-bottom: 10px" class="w-100">
-                            <li class="mb-2 d-flex align-items-center  justify-content-between">
-                                <div class="d-flex align-items-center" style="width: 80%; display:flex;">
-                                    <img class="mr-3" style="height:20px" src="/img/phone-logo.png">
-                                    <img class="mr-4" style="height:24px" src="/img/whatsapp-logo.png">
-                                    <span>13 981245120</span>
-                                </div>
-                                <div class="d-flex w-20 justify-content-end">
-                                    <button class="btn-img mr-2" onclick="alert('oi')">
-                                        <img src="/img/edit-icon.png" style="width:22px">
-                                    </button>
-                                    <button class="btn-img" onclick="alert('oi')">
-                                        <img src="/img/delete-phone-icon.png">
-                                    </button>
-                                </div>
-                            </li>
-                            <li class="mb-2 d-flex align-items-center  justify-content-between">
-                                <div class="d-flex align-items-center" style="width: 80%; display:flex;">
-                                    <img class="mr-3" style="height:20px" src="/img/phone-logo.png">
-                                    <img class="mr-4" style="height:24px" src="/img/whatsapp-logo.png">
-                                    <span>13 981245120</span>
-                                </div>
-                                <button class="btn-img" onclick="alert('oi')">
-                                    <img src="/img/delete-phone-icon.png">
-                                </button>
-                            </li>
+                        <ul id="phonenumber-list" style="list-style: none;margin-bottom: 10px" class="w-100">
+                            Carregando...
                         </ul>
                     </div>
                 </div>
@@ -82,7 +58,9 @@
                     <form onsubmit="return addPhone(event)">
                         <div class="form-group">
                             <div class="d-flex">
-                                <input type="text" class="form-control mr-3" id="phone-add-input" placeholder="Novo número" required>
+                                <input type="text" minlength="8" class="form-control mr-3" id="phone-add-input" placeholder="Novo número" required>
+                                <input type="hidden" id="phone-add-customer-id">
+                                <input type="hidden" id="token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn btn-info d-flex">
                                     <i class="fa fa-plus"></i>
                                 </button>
