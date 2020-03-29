@@ -1,0 +1,9 @@
+div#phone-add {
+  padding: 15px 15px 0px 20px;
+  border-top: 1px solid #ddd;
+}
+
+div#phone-add input[type=text] {
+  height: 30px;
+}
+

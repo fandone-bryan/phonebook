@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/default.css">
     <link rel="stylesheet" href="/css/template.css">
+    <link rel="stylesheet" href="/css/phone.css">
 
     <title>PhoneBook</title>
 </head>
@@ -63,6 +64,7 @@
     @yield('content')
     <script src="https://kit.fontawesome.com/e4bfd8d51e.js" crossorigin="anonymous"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/phone.js"></script>
 </body>
 
 </html>

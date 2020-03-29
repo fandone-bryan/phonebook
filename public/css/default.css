@@ -40,7 +40,7 @@ button {
 
 .page-header {
   display: flex;
-  align-items: center;  
+  align-items: center;
   margin-bottom: 20px;
   justify-content: space-between;
 }
@@ -57,7 +57,7 @@ button {
 }
 
 .page-header a:hover {
-  color:#fff;
+  color: #fff;
 }
 
 .page-form {
@@ -112,4 +112,9 @@ a:hover {
 
 .w-35 {
   width: 35%;
+}
+
+.btn-img {
+  background: none;
+  border: 0;
 }
