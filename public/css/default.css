@@ -19,6 +19,40 @@ button {
   cursor: pointer;
 }
 
+.page-container {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0px 10px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.page-header span {
+  font-size: 2.4rem;
+}
+
+.page-header button {
+  color: #fff;
+  border: 0;
+  padding: 5px;
+  background: #04a2b3;
+
+}
+
+.default-background {
+  background: #3f4a59;
+}
+
+.default-color {
+  color: #04a2b3;
+}
+
 .warning {
   position: relative;
   padding: .75rem 1.25rem;
@@ -45,4 +79,24 @@ a {
 
 a:hover {
   color: #fff;
+}
+
+.table {
+  color: #3f4a59;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-35 {
+  width: 35%;
 }

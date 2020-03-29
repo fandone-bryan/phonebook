@@ -22,5 +22,5 @@ Route::post('/users', 'UserController@store');
 
 
 Route::group(['middleware' => 'auth'], function () use ($router) { 
-    Route::get('/', 'CostumerController@index');    
+    Route::get('/', 'CustomerController@index');    
 });
