@@ -9,15 +9,24 @@ function openPhoneModal(id, name) {
 
 function loadPhoneNumbers(id) {
   $("#phonenumber-list").html('')
+  
   $.getJSON(`/clientes/${id}/telefones`, function (numbers) {
+    
     var html = ''
+    
     if (numbers.length > 0) {
+      
       for (var number of numbers) {
+        
         html += `
         <li class="mb-2 d-flex align-items-center  justify-content-between">
           <div class="d-flex align-items-center" style="width: 80%; display:flex;">
+            <a href='tel:+55${number.number}'>
             <img class="mr-3" style="height:20px" src="/img/phone-logo.png">
+            </a>
+            <a target="_blank" href="https://api.whatsapp.com/send?phone=+55${number.number}&text=Ol%C3%A1%2C+boa+tarde">
             <img class="mr-4" style="height:24px" src="/img/whatsapp-logo.png">
+            </a>
             <span>${number.number}</span>
           </div>
           <div class="d-flex w-20 justify-content-end">
