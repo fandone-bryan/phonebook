@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Customer;
+use App\Phone;
 
 class CustomerController extends Controller
 {
@@ -16,7 +17,7 @@ class CustomerController extends Controller
         return view('customer.index', ['customers' => $customer]);
     }
 
-    public function create() 
+    public function create()
     {
         return view('customer.form');
     }
@@ -48,7 +49,23 @@ class CustomerController extends Controller
         $customer->email = $request->email;
 
         $customer->save();
-        
+
         return redirect('/');
+    }
+
+    public function search(Request $request)
+    {
+        $result = [];
+        if (filter_var($request->filter, FILTER_VALIDATE_EMAIL)) {
+            $result = Customer::where('email', $request->filter)->get();
+        } elseif (is_numeric($request->filter)) {
+            $phones = Phone::where('number', 'like', $request->filter)->get()->toArray();
+
+            $result = array_map(function ($value) { return Customer::find($value["customer_id"]); }, $phones);
+        } else {
+            $result = Customer::where('name', 'like', "%$request->filter%")->get();
+        }
+
+        return view('customer.index', ['customers' => $result]);
     }
 }

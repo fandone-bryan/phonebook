@@ -7,6 +7,16 @@
         <span class="default-color">Clientes</span>
         <a href="/clientes/criar" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Adicionar cliente</a>
     </header>
+    <div class="page-filter-container">
+        <div class="page-filter">
+            <form action="/clientes/filtrar" method="GET">
+                <button><i class="fas fa-search"></i></button>
+                <input type="text" name="filter" placeholder="Pesquise pelo nome, e-mail ou telefone...">
+                {{ csrf_field() }}
+            </form>
+        </div>
+        <a href="/" class="btn btn-light">Limpar pesquisa</a>
+    </div>
     <div class="table-responsive-md">
         <table class="table">
             <thead class="default-background text-white">
@@ -57,7 +67,8 @@
                     <form onsubmit="return phoneStore(event)">
                         <div class="form-group">
                             <div class="d-flex">
-                                <input type="text" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" minlength="8" maxlength="11" class="form-control mr-3" id="phone-add-input"
+                                <input type="text" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" minlength="8"
+                                    maxlength="11" class="form-control mr-3" id="phone-add-input"
                                     placeholder="Novo número" required>
                                 <input type="hidden" id="phone-customer-id">
                                 <input type="hidden" id="token" value="{{ csrf_token() }}">
