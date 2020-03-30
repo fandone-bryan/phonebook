@@ -26,4 +26,15 @@ class PhoneController extends Controller
 
         return response()->json(["msg" => "ok"]);
     }
+
+    public function update(Request $request, $id)
+    {
+        $phone = Phone::find($id);
+
+        $phone->number = $request->number;
+
+        $phone->save();
+
+        return response()->json(["msg" =>"ok"]);
+    }
 }

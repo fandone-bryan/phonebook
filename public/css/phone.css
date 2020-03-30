@@ -1,5 +1,5 @@
 div#phone-add {
-  padding: 15px 15px 0px 20px;
+  padding: 15px 0px 0px 0px;
   border-top: 1px solid #ddd;
 }
 
@@ -7,3 +7,35 @@ div#phone-add input[type=text] {
   height: 30px;
 }
 
+.phone-actions {
+  display: flex;
+  width: 20%;
+  justify-content: flex-end;
+}
+
+.phone-list {
+  padding: 20px 0px 0px 0px;
+}
+
+.phone-list ul {
+  list-style: none;
+  margin-bottom: 10px;
+  width:100%;
+}
+
+#phone-message {
+  display:none;
+}
+@media (max-width: 767px) {
+  .phone-edit input[type=text] {
+    width: 130px;
+  }
+  .phone-edit {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+  }
+  .phone-list {
+    padding: 20px 0px 0px 0px;
+  }
+}

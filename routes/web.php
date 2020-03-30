@@ -29,4 +29,5 @@ Route::group(['middleware' => 'auth'], function () use ($router) {
     
     Route::get('/clientes/{customerId}/telefones', 'PhoneController@index');
     Route::post('/telefones', 'PhoneController@store');
+    Route::put('/telefones/{id}', 'PhoneController@update');
 });
