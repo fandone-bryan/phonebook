@@ -8,52 +8,6 @@ function openPhoneModal(id, name) {
   $("#phoneModal").modal()
 }
 
-function loadPhoneNumbers(id) {
-  $("#phonenumber-list").html('')
-
-  $.getJSON(`/clientes/${id}/telefones`, function (numbers) {
-
-    var html = ''
-
-    if (numbers.length > 0) {
-
-      for (var number of numbers) {
-
-        html += `
-        <li class="mb-2 d-flex align-items-center  justify-content-between">
-          <div class="d-flex align-items-center" style="display:flex;">
-            <a class="d-flex" href='tel:+55${number.number}'>
-              <img class="mr-3" style="height:20px" src="/img/phone-logo.png">
-            </a>
-            <a class="d-flex" target="_blank" href="https://api.whatsapp.com/send?phone=+55${number.number}&text=Ol%C3%A1%2C+boa+tarde">
-              <img class="mr-1" style="height:24px" src="/img/whatsapp-logo.png">
-            </a>     
-          </div>
-          <div id="phone-edit-${number.id}" class="phone-edit">
-            <span>${number.number}</span>
-          </div>  
-          <div class="phone-actions">            
-            <button class="btn-img mr-2" onclick="phoneEdit(${number.id},'${number.number}')">
-              <img src="/img/edit-icon.png" style="width:23px">
-            </button>
-            <form>
-            <button class="btn-img" onclick="">
-              <img src="/img/delete-phone-icon.png">
-            </button>
-            </form>
-          </div>
-        </li>
-        `
-      }
-    } else {
-      html = '<span class="default-color-dark"> Não há telefones cadastrados</span>';
-    }
-
-    $("#phonenumber-list").html(html)
-  });
-
-}
-
 function phoneEdit(id, number) {
   var html = `
     <form class="d-flex" onsubmit="return phoneUpdate(event, ${id})">
@@ -91,7 +45,7 @@ function phoneUpdate(event, id) {
   
 }
 
-function addPhone(event) {
+function phoneStore(event) {
   event.preventDefault();
 
   var data = {
@@ -108,6 +62,77 @@ function addPhone(event) {
   $.post("/telefones", data, function () {
     loadPhoneNumbers($("#phone-customer-id").val())
     $("#phone-add-input").val('')
+  });
+
+}
+
+function phoneDelete(event, id) {
+  event.preventDefault();
+
+  var data = {
+    number: $("#phone-add-input").val(),
+  };
+
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  $.ajax({
+    url: `/telefones/${id}`,
+    type: 'DELETE',    
+    success: function (result) {
+      console.log(result)
+      loadPhoneNumbers($("#phone-customer-id").val())
+      $("#phone-message").html('Número excluído com sucesso!')
+      $("#phone-message").show()
+    }
+  });
+}
+
+function loadPhoneNumbers(id) {
+  $("#phonenumber-list").html('')
+
+  $.getJSON(`/clientes/${id}/telefones`, function (numbers) {
+
+    var html = ''
+
+    if (numbers.length > 0) {
+
+      for (var number of numbers) {
+
+        html += `
+        <li class="mb-2 d-flex align-items-center  justify-content-between">
+          <div class="d-flex align-items-center" style="display:flex;">
+            <a class="d-flex" href='tel:+55${number.number}'>
+              <img class="mr-3" style="height:20px" src="/img/phone-logo.png">
+            </a>
+            <a class="d-flex" target="_blank" href="https://api.whatsapp.com/send?phone=+55${number.number}&text=Ol%C3%A1%2C+boa+tarde">
+              <img class="mr-1" style="height:24px" src="/img/whatsapp-logo.png">
+            </a>     
+          </div>
+          <div id="phone-edit-${number.id}" class="phone-edit">
+            <span>${number.number}</span>
+          </div>  
+          <div class="phone-actions">            
+            <button class="btn-img mr-2" onclick="phoneEdit(${number.id},'${number.number}')">
+              <img src="/img/edit-icon.png" style="width:23px">
+            </button>
+            <form onsubmit="phoneDelete(event, ${number.id})">
+              <button type="submit" class="btn-img">
+                <img src="/img/delete-phone-icon.png">
+              </button>
+            </form>
+          </div>
+        </li>
+        `
+      }
+    } else {
+      html = '<span class="default-color-dark"> Não há telefones cadastrados</span>';
+    }
+
+    $("#phonenumber-list").html(html)
   });
 
 }

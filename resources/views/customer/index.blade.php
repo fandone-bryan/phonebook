@@ -54,7 +54,7 @@
                     </ul>
                 </div>
                 <div id="phone-add" class="phone-add">
-                    <form onsubmit="return addPhone(event)">
+                    <form onsubmit="return phoneStore(event)">
                         <div class="form-group">
                             <div class="d-flex">
                                 <input type="text" minlength="8" class="form-control mr-3" id="phone-add-input"

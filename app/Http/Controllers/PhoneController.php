@@ -37,4 +37,13 @@ class PhoneController extends Controller
 
         return response()->json(["msg" =>"ok"]);
     }
+
+    public function destroy($id)
+    {
+        $phone = Phone::find($id);
+
+        $phone->delete();
+
+        return response()->json(["msg" =>"ok"]);
+    }
 }
