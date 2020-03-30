@@ -57,7 +57,7 @@
                     <form onsubmit="return phoneStore(event)">
                         <div class="form-group">
                             <div class="d-flex">
-                                <input type="text" minlength="8" class="form-control mr-3" id="phone-add-input"
+                                <input type="text" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" minlength="8" maxlength="11" class="form-control mr-3" id="phone-add-input"
                                     placeholder="Novo número" required>
                                 <input type="hidden" id="phone-customer-id">
                                 <input type="hidden" id="token" value="{{ csrf_token() }}">

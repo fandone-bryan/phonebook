@@ -11,7 +11,9 @@ function openPhoneModal(id, name) {
 function phoneEdit(id, number) {
   var html = `
     <form class="d-flex" onsubmit="return phoneUpdate(event, ${id})">
-      <input type="text" class="form-control mr-1" minlength="8" id="phone-edit-number" value="${number}" style="height:25px">
+      <input type="text" class="form-control mr-1"
+       onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" minlength="8" maxlength="11" 
+       id="phone-edit-number" value="${number}" style="height:25px">
       <button type="submit" class="btn btn-info" style="height: 25px;
       width: 25px;
       display: flex;
@@ -83,7 +85,6 @@ function phoneDelete(event, id) {
     url: `/telefones/${id}`,
     type: 'DELETE',    
     success: function (result) {
-      console.log(result)
       loadPhoneNumbers($("#phone-customer-id").val())
       $("#phone-message").html('Número excluído com sucesso!')
       $("#phone-message").show()

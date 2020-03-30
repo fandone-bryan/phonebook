@@ -26,6 +26,10 @@ div#phone-add input[type=text] {
 #phone-message {
   display:none;
 }
+
+.phone-edit {
+  font-size: 20px;
+}
 @media (max-width: 767px) {
   .phone-edit input[type=text] {
     width: 130px;
