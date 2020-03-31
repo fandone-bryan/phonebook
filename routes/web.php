@@ -39,4 +39,8 @@ Route::group(['middleware' => 'auth'], function () use ($router) {
 
     Route::get('/usuarios/{id}/senha', 'PasswordController@edit');
     Route::put('/usuarios/{id}/senha', 'PasswordController@update');
+
+    Route::get('/grupos', 'GroupController@index');    
+    Route::get('/grupos/criar', 'GroupController@create'); 
+    Route::get('/grupos/{id}/criar', 'GroupController@edit'); 
 });
