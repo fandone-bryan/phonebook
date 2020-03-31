@@ -33,4 +33,7 @@ Route::group(['middleware' => 'auth'], function () use ($router) {
     Route::post('/telefones', 'PhoneController@store');
     Route::put('/telefones/{id}', 'PhoneController@update');
     Route::delete('/telefones/{id}', 'PhoneController@destroy');
+
+    Route::get('/usuarios/{id}/editar', 'UserController@edit');
+    Route::put('/usuarios/{id}/editar', 'UserController@update');
 });
