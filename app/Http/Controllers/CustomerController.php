@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Customer;
 use App\Phone;
 use Session;
+use DB;
 
 class CustomerController extends Controller
 {
@@ -66,15 +67,20 @@ class CustomerController extends Controller
                 ]
             )->get();
         } elseif (is_numeric($request->filter)) {
-            $phones = Customer::find(Session::get('user.id'))
-                ->phones
-                ->where('number', 'like', $request->filter)
-                ->toArray();
+
+            $customers = Customer::where('user_id', Session::get('user.id'))
+            ->select(DB::raw('group_concat(id) as ids'))
+            ->first()->toArray();
+
+            
+            $phones = Phone::where(
+                'number', 'like', "%$request->filter%"
+            )->whereIn(
+                'customer_id', explode(',', $customers["ids"]))->get()->toArray();
 
             $result = array_map(function ($value) {
                 return Customer::find($value["customer_id"]);
             }, $phones);
-
         } else {
             $result = Customer::where(
                 [
