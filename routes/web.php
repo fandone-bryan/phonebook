@@ -20,13 +20,10 @@ Route::get('/logout', 'SessionController@destroy');
 
 Route::post('/users', 'UserController@store');
 
-
 Route::group(['middleware' => 'auth'], function () use ($router) { 
-    Route::get('/', 'CustomerController@index');    
-    
-    Route::get('/clientes/criar', 'CustomerController@create'); 
-
+    Route::get('/', 'CustomerController@index');  
     Route::post('/clientes', 'CustomerController@store');  
+    Route::get('/clientes/criar', 'CustomerController@create'); 
     Route::get('/clientes/filtrar', 'CustomerController@search');
         
     Route::get('/clientes/{customerId}/telefones', 'PhoneController@index');
@@ -34,12 +31,10 @@ Route::group(['middleware' => 'auth'], function () use ($router) {
     Route::put('/telefones/{id}', 'PhoneController@update');
     Route::delete('/telefones/{id}', 'PhoneController@destroy');
 
-    Route::get('/usuarios', 'UserController@index');
-    
-    Route::get('/usuarios/criar', 'UserController@create');
-
-    Route::get('/usuarios/{id}/editar', 'UserController@edit');
-    Route::put('/usuarios/{id}/editar', 'UserController@update');
-    
+    Route::get('/usuarios', 'UserController@index');    
+    Route::get('/usuarios/criar', 'UserController@create');    
     Route::delete('/usuarios/{id}', 'UserController@destroy');
+
+    Route::get('/usuarios/{id}/senha', 'PasswordController@edit');
+    Route::put('/usuarios/{id}/senha', 'PasswordController@update');
 });

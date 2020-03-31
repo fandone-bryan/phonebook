@@ -51,7 +51,7 @@
                             aria-haspopup="true" aria-expanded="false"><span>{{ Session::get('user.name') }}</span>&nbsp;<i
                                 class="fas fa-user fa-fw"></i></a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/usuarios/{{ Session::get('user.id') }}/editar">Alterar senha</a>
+                            <a class="dropdown-item" href="/usuarios/{{ Session::get('user.id') }}/senha">Alterar senha</a>
                             <a class="dropdown-item" href="#">Logs</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Sair</a>

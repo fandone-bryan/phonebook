@@ -6,7 +6,7 @@
     <span class="default-color">Alterar senha</span>
   </header>
 
-  <form class="page-form" method="POST" action="/usuarios/{{ Session::get('user.id') }}/editar">
+  <form class="page-form" method="POST" action="/usuarios/{{ Session::get('user.id') }}/senha">
     <span class="default-color-dark mb-5">Informe os dados</span>
     @if (isset($success))
     <div class="alert alert-info">
