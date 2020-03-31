@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
-use App\User;
 use Illuminate\Support\Facades\Validator;
 use Session;
+
+use App\User;
+use App\Group;
 
 class UserController extends Controller
 {
@@ -28,6 +29,10 @@ class UserController extends Controller
 
     public function create()
     {
+        if (empty(Group::all()->toArray())) {
+            return back()->withErrors(['user_exists' => 'Para poder adicionar um usuário, cadastre ao menos um grupo!']);
+        }
+        exit;
         if (Session::get('user.occupation') !== 'admin') {
             return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar usuários!']);
         }

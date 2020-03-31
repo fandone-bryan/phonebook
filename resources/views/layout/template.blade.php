@@ -31,17 +31,17 @@
             </button>
             <div class="collapse navbar-collapse navbar-right" id="navbarNav">
                 <div class="nav-links">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav text-center">
                         <?php $pagina = explode('/',Request::route()->uri)[0]; ?>
                         
                         <li class="nav-item <?= $pagina == '' || $pagina == 'clientes' ? 'active' : ''?>">
                             <a class="nav-link" href="/">Clientes</a>
                         </li>
-                        <li class="nav-item <?= $pagina == 'usuarios' ? 'active' : ''?>">
-                            <a class="nav-link" href="/usuarios">Usuários</a>
-                        </li>
                         <li class="nav-item <?= $pagina == 'grupos' ? 'active' : ''?>">
                             <a class="nav-link" href="/grupos">Grupos</a>
+                        </li>
+                        <li class="nav-item <?= $pagina == 'usuarios' ? 'active' : ''?>">
+                            <a class="nav-link" href="/usuarios">Usuários</a>
                         </li>
                     </ul>
                 </div>
