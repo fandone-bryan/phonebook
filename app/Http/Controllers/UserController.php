@@ -93,32 +93,44 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        return view('user.form-edit');
+        if (Session::get('user.occupation') !== 'admin') {
+            return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar usuários!']);
+        }
+
+        $user = User::find($id);
+
+        return view('user.form', ['user' => $user]);
     }
 
     public function update(Request $request, $id)
     {
-        /**
-         * Id do usuário sempre sendo pego pela sessão,
-         * pois por mais que mudem o id na url, não irão
-         * alterar a senha de outro usuário que não seja
-         * o seu próprio.
-         */
-        $user = User::find($request->session()->get('user.id'));
 
-        if (!Hash::check($request->old_password, $user->password)) {
-            return back()->withInput($request->all())->withErrors(['msg' => 'A senha antiga não está correta!']);
+        $user = User::find($id);
+
+        $user->name = $request->name;
+
+        if ($user->email != $request->signup_email) {
+            
+            $emailExists = User::where([
+                ['email', $request->signup_email],
+            ])->get()->toArray();
+            
+            if (!empty($emailExists)) {
+                return back()->withErrors(['user_exists' => 'Este e-mail já esta vinculado a outro usuário!']);
+            }
+
+            $user->email = $request->signup_email;
         }
 
-        if ($request->new_password !== $request->re_new_password) {
-            return back()->withInput($request->all())->withErrors(['msg' => 'As senhas não coincidem!']);
+        if (!empty($request->password)) {
+            $user->password = Hash::make($request->password);
         }
-
-        $user->password = Hash::make($request->new_password);
 
         $user->save();
 
-        return view('user.form-edit', ['success' => true]);
+        Session::put('message', 'Usuário alterado com sucesso');
+
+        return redirect('/usuarios');
     }
 
     public function destroy($id)

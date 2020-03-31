@@ -33,6 +33,8 @@ Route::group(['middleware' => 'auth'], function () use ($router) {
 
     Route::get('/usuarios', 'UserController@index');    
     Route::get('/usuarios/criar', 'UserController@create');    
+    Route::get('/usuarios/{id}/editar', 'UserController@edit');    
+    Route::put('/usuarios/{id}/editar', 'UserController@update');    
     Route::delete('/usuarios/{id}', 'UserController@destroy');
 
     Route::get('/usuarios/{id}/senha', 'PasswordController@edit');

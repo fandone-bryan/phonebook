@@ -36,10 +36,13 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td class="text-center">
+                    <td class="d-flex justify-content-center">
+                        <a href="/usuarios/{{$user->id}}/editar" class="mr-2">
+                            <img src="/img/edit-icon.png" style="height:36px">
+                        </a>
                         <form action="/usuarios/{{$user->id}}" method="POST">
-                            <button type="submit" class="btn btn-danger">
-                                Excluir
+                            <button type="submit" class="btn-img">
+                                <img src="/img/delete-icon.png" style="height:36px">
                             </button>
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
