@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('occupation');
+            $table->bigInteger('admin_id')->nullable();
+            $table->index('admin_id');
             $table->timestamps();
         });
     }
