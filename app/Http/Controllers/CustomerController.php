@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Customer;
 use App\Phone;
+use Session;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-        $customer = Customer::all();
+        $customer = Customer::where('user_id', Session::get('user.id'))->get();
 
         return view('customer.index', ['customers' => $customer]);
     }
@@ -47,6 +48,7 @@ class CustomerController extends Controller
 
         $customer->name = $request->name;
         $customer->email = $request->email;
+        $customer->user_id = Session::get('user.id');
 
         $customer->save();
 
@@ -57,13 +59,29 @@ class CustomerController extends Controller
     {
         $result = [];
         if (filter_var($request->filter, FILTER_VALIDATE_EMAIL)) {
-            $result = Customer::where('email', $request->filter)->get();
+            $result = Customer::where(
+                [
+                    ['email', $request->filter],
+                    ['user_id', Session::get('user.id')]
+                ]
+            )->get();
         } elseif (is_numeric($request->filter)) {
-            $phones = Phone::where('number', 'like', $request->filter)->get()->toArray();
+            $phones = Customer::find(Session::get('user.id'))
+                ->phones
+                ->where('number', 'like', $request->filter)
+                ->toArray();
 
-            $result = array_map(function ($value) { return Customer::find($value["customer_id"]); }, $phones);
+            $result = array_map(function ($value) {
+                return Customer::find($value["customer_id"]);
+            }, $phones);
+
         } else {
-            $result = Customer::where('name', 'like', "%$request->filter%")->get();
+            $result = Customer::where(
+                [
+                    ['name', 'like', "%$request->filter%"],
+                    ['user_id', Session::get('user.id')]
+                ]
+            )->get();
         }
 
         return view('customer.index', ['customers' => $result]);
