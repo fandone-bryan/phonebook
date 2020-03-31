@@ -38,10 +38,10 @@
                             <a class="nav-link" href="/">Clientes</a>
                         </li>
                         <li class="nav-item <?= $pagina == 'usuarios' ? 'active' : ''?>">
-                            <a class="nav-link" href="#">Usuários</a>
+                            <a class="nav-link" href="/usuarios">Usuários</a>
                         </li>
                         <li class="nav-item <?= $pagina == 'grupos' ? 'active' : ''?>">
-                            <a class="nav-link" href="#">Grupos</a>
+                            <a class="nav-link" href="/grupos">Grupos</a>
                         </li>
                     </ul>
                 </div>
