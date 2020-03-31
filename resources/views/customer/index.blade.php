@@ -5,8 +5,19 @@
 <main class="page-container">
     <header class="page-header">
         <span class="default-color">Clientes</span>
-        <a href="/clientes/criar" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Adicionar cliente</a>
+        <a href="/clientes/criar" class="btn btn-info" disabled>
+            <i class="fas fa-plus"></i>&nbsp;Adicionar cliente
+        </a>
     </header>
+    @if ($errors->any())
+    <div class="warning">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <div class="page-filter-container">
         <div class="page-filter">
             <form action="/clientes/filtrar" method="GET">
