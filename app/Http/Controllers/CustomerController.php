@@ -21,11 +21,19 @@ class CustomerController extends Controller
 
     public function create()
     {
+        if (Session::get('user.occupation') !== 'admin') {
+            return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar clientes!']);
+        }
+
         return view('customer.form');
     }
 
     public function store(Request $request)
     {
+        if (Session::get('user.occupation') !== 'admin') {
+            return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar clientes!']);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
