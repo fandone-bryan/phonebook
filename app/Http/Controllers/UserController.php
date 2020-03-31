@@ -7,16 +7,34 @@ use Illuminate\Support\Facades\Hash;
 
 use App\User;
 use Illuminate\Support\Facades\Validator;
+use Session;
 
 class UserController extends Controller
 {
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+        if (Session::get('user.occupation') !== 'admin') {
+            return back()->withErrors(['user_exists' => 'Somente o administrador possui acesso a está área!']);
+        }
+
+        $users = User::where([
+            ['occupation', 'user'],
+            ['admin_id', Session::get('user.id')]
+        ])->get();
+
+        return view('user.index', ['users' => $users]);
+    }
+
+    public function create()
+    {
+        if (Session::get('user.occupation') !== 'admin') {
+            return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar usuários!']);
+        }
+
+        return view('user.form');
+    }
+
     public function store(Request $request)
     {
 
@@ -51,7 +69,15 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->occupation = $request->occupation;
 
+
+        $user->admin_id = !empty($request->session()->get('user')) ? $request->session()->get('user.id') : null;
+
         $user->save();
+
+        if ($user->admin_id !== null) {
+            Session::put('message', 'Usuário cadastrado com sucesso');
+            return redirect('/usuarios');
+        }
 
         $request->session()->forget('form');
 
@@ -60,27 +86,16 @@ class UserController extends Controller
         $request->session()->put('user.email', $user->email);
         $request->session()->put('user.occupation', $user->occupation);
 
+
         return redirect('/');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         return view('user.form-edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         /**
@@ -106,14 +121,18 @@ class UserController extends Controller
         return view('user.form-edit', ['success' => true]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        if (Session::get('user.occupation') !== 'admin') {
+            return back()->withErrors(['user_exists' => 'Somente o administrador pode excluir usuários!']);
+        }
+
+        $user = User::find($id);
+
+        $user->delete();
+
+        Session::put('message', 'Usuário excluído com sucesso');
+
+        return redirect('/usuarios');
     }
 }
