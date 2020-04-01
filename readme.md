@@ -24,7 +24,7 @@ cd phonebook
 composer install
 
 # A partir deste ponto, será necessário criar o banco de dados.
-# Após o banco criado, crie um arquivo .env a partir do .env.example que esta na raiz da aplicar.
+# Após o banco criado, crie um arquivo .env a partir do .env.example que esta na raiz da aplicação.
 # Configure o nome, usuario e senha do banco de dados.
 
 # Obs.: Já deixei o arquivo .env.example igual ao que estou utilizando somente para facilidade na apresentação.
