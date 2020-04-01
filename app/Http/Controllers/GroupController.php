@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Session;
 
 use App\Group;
+use App\Permission;
+use App\GroupPermission;
 
 class GroupController extends Controller
 {
@@ -28,12 +30,13 @@ class GroupController extends Controller
             return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar usuários!']);
         }
 
-        return view('group.form');
+        $permissions = Permission::all();
+
+        return view('group.form', ['permissions' => $permissions]);
     }
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ], [
@@ -51,6 +54,17 @@ class GroupController extends Controller
 
         $group->save();
 
+        if (!empty($request->permissions)) {
+
+            foreach ($request->permissions as $value) {
+
+                $perm = new GroupPermission;
+                $perm->group_id = $group->id;
+                $perm->permission_id = $value;
+                $perm->save();
+            }
+        }
+
         Session::put('message', 'Grupo cadastrado com sucesso');
 
         return redirect('/grupos');
@@ -63,8 +77,15 @@ class GroupController extends Controller
         }
 
         $group = Group::find($id);
+        $groupPermissions = Group::find($id)->permissions->toArray();
 
-        return view('group.form', ['group' => $group]);
+        $group->permissions = array_map(function($value){
+            return $value["permission_id"];
+        }, $groupPermissions);
+
+        $permissions = Permission::all();
+        
+        return view('group.form', ['group' => $group, 'permissions' => $permissions]);
     }
 
     public function update(Request $request, $id)
@@ -85,6 +106,19 @@ class GroupController extends Controller
         $group->name = $request->name;
 
         $group->save();
+
+        GroupPermission::where('group_id', $group->id)->delete();
+
+        if (!empty($request->permissions)) {
+
+            foreach ($request->permissions as $value) {
+
+                $perm = new GroupPermission;
+                $perm->group_id = $group->id;
+                $perm->permission_id = $value;
+                $perm->save();
+            }
+        }
 
         Session::put('message', 'Grupo alterado com sucesso');
 

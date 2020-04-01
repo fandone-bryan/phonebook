@@ -27,6 +27,16 @@
             <input type="text" class="form-control" name="name" placeholder="Nome"
                 value="{{!empty($group)? $group->name : old('name')}}" required>
         </div>
+        <div class="d-flex mb-2 justify-content-between">
+            @foreach ($permissions as $permission)
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="permissions[]"
+                id="permission-{{$permission->id}}" value="{{$permission->id}}"
+                {{ in_array($permission->id, ($group->toArray())['permissions']) ? "checked" : ""}}
+                >
+                <label class="form-check-label" for="permission-{{$permission->id}}">{{$permission->nickname}}</label>
+            </div>
+            @endforeach
         </div>
         <input type="hidden" name="occupation" value="user">
         {{ csrf_field() }}
