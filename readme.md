@@ -17,7 +17,7 @@
 ##### Configuração
 ``` bash
 # Baixe projeto
-git clone https://github.com/info-bryanalves/telephone-book.git
+git clone https://github.com/info-bryanalves/phonebook.git
 
 # Instale as dependências
 cd phonebook
