@@ -85,7 +85,7 @@ class GroupController extends Controller
 
         $permissions = Permission::all();
         
-        return view('group.form', ['group' => $group, 'permissions' => $permissions]);
+        return view('group.form', ['group' => $group->toArray(), 'permissions' => $permissions]);
     }
 
     public function update(Request $request, $id)
