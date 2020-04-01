@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use App\User;
+use App\Log;
+use Session;
 
 class SessionController extends Controller
 {
@@ -46,11 +48,24 @@ class SessionController extends Controller
         if (!empty($user->group_id)) {
             $request->session()->put('user.group_id', $user->group_id);
         }
+
+        $log = new Log;
+
+        $log->description = 'Login no sistema';
+        $log->user_id = $user->id;
+        $log->save();
+
         return redirect('/');
     }
 
     public function destroy(Request $request)
     {
+        $log = new Log;
+        
+        $log->description = 'Logout no sistema';
+        $log->user_id = Session::get('user.id');
+        $log->save();
+
         $request->session()->forget('user');
 
         return redirect('/login');

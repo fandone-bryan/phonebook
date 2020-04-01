@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\Log;
 use App\Phone;
+use App\Customer;
 use App\Permission;
 use App\GroupPermission;
 use Session;
@@ -27,6 +29,13 @@ class PhoneController extends Controller
         if (Session::get('user.occupation') == 'admin' || in_array('phone_list', $permissions)) {
             $phones = Phone::where('customer_id', '=', $customerId)->get();
         }
+        
+        $customer = Customer::find($customerId);
+
+        $log = new Log;
+        $log->description = "Acessou a lista de telefone do usuário: {$customer->id} - {$customer->name}";
+        $log->user_id = $user->id;
+        $log->save();
 
         return response()->json($phones);
     }
@@ -52,6 +61,13 @@ class PhoneController extends Controller
 
         $phone->save();
 
+        $customer = Customer::find($request->customer_id);
+
+        $log = new Log;
+        $log->description = "Cadastrou o telefone $request->number para o usuário: {$customer->id} - {$customer->name}";
+        $log->user_id = $user->id;
+        $log->save();
+
         return response()->json(["msg" => "ok"]);
     }
 
@@ -71,10 +87,18 @@ class PhoneController extends Controller
 
         $phone = Phone::find($id);
 
+        $oldNumber = $phone->number;
+        $customerId = $phone->customer_id;
+
         $phone->number = $request->number;
 
         $phone->save();
+        $customer = Customer::find($customerId);
 
+        $log = new Log;
+        $log->description = "Alterou o telefone $oldNumber para $request->number do usuário usuário: {$customer->id} - {$customer->name}";
+        $log->user_id = $user->id;
+        $log->save();
         return response()->json(["msg" => "ok"]);
     }
 
@@ -94,7 +118,17 @@ class PhoneController extends Controller
 
         $phone = Phone::find($id);
 
+        $number = $phone->number;
+        $customerId = $phone->customer_id;
+
         $phone->delete();
+
+        $customer = Customer::find($customerId);
+        
+        $log = new Log;
+        $log->description = "Excluiu o telefone $number do usuário usuário: {$customer->id} - {$customer->name}";
+        $log->user_id = $user->id;
+        $log->save();
 
         return response()->json(["msg" => "ok"]);
     }
