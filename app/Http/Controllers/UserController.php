@@ -32,7 +32,7 @@ class UserController extends Controller
         if (empty(Group::all()->toArray())) {
             return back()->withErrors(['user_exists' => 'Para poder adicionar um usuário, cadastre ao menos um grupo!']);
         }
-        exit;
+        
         if (Session::get('user.occupation') !== 'admin') {
             return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar usuários!']);
         }

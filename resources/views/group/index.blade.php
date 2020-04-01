@@ -4,8 +4,8 @@
 
 <main class="page-container">
     <header class="page-header">
-        <span class="default-color">Usuários</span>
-        <a href="/grupos/criar" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Adicionar usuário</a>
+        <span class="default-color">Grupos</span>
+        <a href="/grupos/criar" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Adicionar grupo</a>
     </header>
     @if (!empty(Session::get('message')))
     <div class="alert alert-info">

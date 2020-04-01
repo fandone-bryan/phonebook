@@ -42,5 +42,8 @@ Route::group(['middleware' => 'auth'], function () use ($router) {
 
     Route::get('/grupos', 'GroupController@index');    
     Route::get('/grupos/criar', 'GroupController@create'); 
-    Route::get('/grupos/{id}/criar', 'GroupController@edit'); 
+    Route::post('/grupos', 'GroupController@store'); 
+    Route::get('/grupos/{id}/editar', 'GroupController@edit'); 
+    Route::put('/grupos/{id}', 'GroupController@update'); 
+    Route::delete('/grupos/{id}', 'GroupController@destroy'); 
 });
