@@ -33,7 +33,7 @@ class PhoneController extends Controller
         $customer = Customer::find($customerId);
 
         $log = new Log;
-        $log->description = "Acessou a lista de telefone do usuário: {$customer->id} - {$customer->name}";
+        $log->description = "Acessou a lista de telefone do cliente: {$customer->id} - {$customer->name}";
         $log->user_id = $user->id;
         $log->save();
 
@@ -64,7 +64,7 @@ class PhoneController extends Controller
         $customer = Customer::find($request->customer_id);
 
         $log = new Log;
-        $log->description = "Cadastrou o telefone $request->number para o usuário: {$customer->id} - {$customer->name}";
+        $log->description = "Cadastrou o telefone $request->number para o cliente: {$customer->id} - {$customer->name}";
         $log->user_id = $user->id;
         $log->save();
 
@@ -96,7 +96,7 @@ class PhoneController extends Controller
         $customer = Customer::find($customerId);
 
         $log = new Log;
-        $log->description = "Alterou o telefone $oldNumber para $request->number do usuário usuário: {$customer->id} - {$customer->name}";
+        $log->description = "Alterou o telefone $oldNumber para $request->number do cliente: {$customer->id} - {$customer->name}";
         $log->user_id = $user->id;
         $log->save();
         return response()->json(["msg" => "ok"]);
@@ -126,7 +126,7 @@ class PhoneController extends Controller
         $customer = Customer::find($customerId);
         
         $log = new Log;
-        $log->description = "Excluiu o telefone $number do usuário usuário: {$customer->id} - {$customer->name}";
+        $log->description = "Excluiu o telefone $number do cliente: {$customer->id} - {$customer->name}";
         $log->user_id = $user->id;
         $log->save();
 
