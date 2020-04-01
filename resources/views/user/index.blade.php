@@ -52,6 +52,9 @@
                     </td>
                 </tr>
                 @endforeach
+                @if (empty($users->toArray()))
+                <tr><td colspan="4" class="text-center">Não há usuários cadastrados.</td></tr>
+                @endif
             </tbody>
         </table>
     </div>

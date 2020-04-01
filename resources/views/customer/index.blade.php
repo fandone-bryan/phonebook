@@ -22,7 +22,7 @@
         <div class="page-filter">
             <form action="/clientes/filtrar" method="GET">
                 <button><i class="fas fa-search"></i></button>
-                <input type="text" name="filter" placeholder="Pesquise pelo nome, e-mail ou telefone...">
+                <input type="text" name="filter" placeholder="Pesquise pelo nome, e-mail ou telefone..." required>
                 {{ csrf_field() }}
             </form>
         </div>
@@ -38,25 +38,26 @@
                 </tr>
             </thead>
             <tbody>
-                <?php //dd($permissions) ?>
                 @foreach ($customers as $customer)
                 <tr>
                     <td>{{ $customer->name }}</td>
                     <td>{{ $customer->email }}</td>
                     <td class="text-center">
-                        <button type="button" class="btn"
-                        @if (Session::get('user.occupation') == 'admin' || in_array('phone_list', $permissions)))
-                        onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')"
-                            @else
-                            title="Você não tem permissão para ver os telefones"
-                            @endif
-                            >
+                        <button type="button" class="btn" @if (Session::get('user.occupation')=='admin' ||
+                            in_array('phone_list', $permissions)))
+                            onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')" @else
+                            title="Você não tem permissão para ver os telefones" @endif>
                             <img src="/phone.png" style="width:28px">
                         </button>
-                        
+
                     </td>
                 </tr>
                 @endforeach
+                @if (empty($customers->toArray()))
+                <tr>
+                    <td colspan="3" class="text-center">Nâo há clientes cadastrados.</td>
+                </tr>
+                @endif
             </tbody>
         </table>
     </div>

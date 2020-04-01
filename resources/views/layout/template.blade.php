@@ -52,7 +52,7 @@
                                 class="fas fa-user fa-fw"></i></a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="/usuarios/{{ Session::get('user.id') }}/senha">Alterar senha</a>
-                            <a class="dropdown-item" href="#">Logs</a>
+                            <a class="dropdown-item" href="/logs">Logs</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Sair</a>
                         </div>
