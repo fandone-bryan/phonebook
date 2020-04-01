@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
 
+use App\User;
 use App\Group;
 use App\Permission;
 use App\GroupPermission;
@@ -129,6 +130,12 @@ class GroupController extends Controller
     {
         if (Session::get('user.occupation') !== 'admin') {
             return back()->withErrors(['user_exists' => 'Somente o administrador pode excluir usuários!']);
+        }
+
+        $users = User::where('group_id', $id)->get()->toArray();
+        
+        if (!empty($users)) {
+            return back()->withErrors(['user_exists' => 'Este grupo possui usuários!']);
         }
 
         $group = Group::find($id);
