@@ -23,6 +23,10 @@ div#phone-add input[type=text] {
   width:100%;
 }
 
+#phone-message-warning {
+  display:none;
+}
+
 #phone-message {
   display:none;
 }

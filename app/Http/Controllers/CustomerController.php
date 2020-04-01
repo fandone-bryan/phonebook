@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Customer;
+use App\GroupPermission;
+use App\Permission;
 use App\Phone;
+use App\User;
 use Session;
 use DB;
 
@@ -14,9 +17,26 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customer = Customer::where('user_id', Session::get('user.id'))->get();
+        $permissions = [];
 
-        return view('customer.index', ['customers' => $customer]);
+        if (Session::get('user.occupation') != 'admin') {
+
+            $user = User::find(Session::get('user.id'));
+
+            $admin = User::find($user->admin_id);
+
+            $customer = Customer::where('user_id', $admin->id)->get();            
+
+            $groupPermissions = GroupPermission::where('group_id', Session::get('user.group_id'))->get();
+
+            foreach ($groupPermissions as $value) {
+                $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
+            }
+        } else {
+            $customer = Customer::where('user_id', Session::get('user.id'))->get();
+        }
+
+        return view('customer.index', ['customers' => $customer, 'permissions' => $permissions]);
     }
 
     public function create()
@@ -66,25 +86,40 @@ class CustomerController extends Controller
 
     public function search(Request $request)
     {
+        $id = Session::get('user.id');
+
+        if (Session::get('user.occupation') != 'admin') {
+
+            $user = User::find(Session::get('user.id'));
+
+            $admin = User::find($user->admin_id);
+
+            $id = $admin->id;
+        }
+
         $result = [];
         if (filter_var($request->filter, FILTER_VALIDATE_EMAIL)) {
             $result = Customer::where(
                 [
                     ['email', $request->filter],
-                    ['user_id', Session::get('user.id')]
+                    ['user_id', $id]
                 ]
             )->get();
         } elseif (is_numeric($request->filter)) {
 
-            $customers = Customer::where('user_id', Session::get('user.id'))
-            ->select(DB::raw('group_concat(id) as ids'))
-            ->first()->toArray();
+            $customers = Customer::where('user_id', $id)
+                ->select(DB::raw('group_concat(id) as ids'))
+                ->first()->toArray();
 
-            
+
             $phones = Phone::where(
-                'number', 'like', "%$request->filter%"
+                'number',
+                'like',
+                "%$request->filter%"
             )->whereIn(
-                'customer_id', explode(',', $customers["ids"]))->get()->toArray();
+                'customer_id',
+                explode(',', $customers["ids"])
+            )->get()->toArray();
 
             $result = array_map(function ($value) {
                 return Customer::find($value["customer_id"]);
@@ -93,7 +128,7 @@ class CustomerController extends Controller
             $result = Customer::where(
                 [
                     ['name', 'like', "%$request->filter%"],
-                    ['user_id', Session::get('user.id')]
+                    ['user_id', $id]
                 ]
             )->get();
         }

@@ -19,11 +19,21 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'name' => 'phone_handle',
-                'nickname' => 'Editar / Excluir telefones',
+                'name' => 'phone_create',
+                'nickname' => 'Criar telefone',
             ],
             [
                 'id' => 3,
+                'name' => 'phone_edit',
+                'nickname' => 'Editar telefone',
+            ],
+            [
+                'id' => 4,
+                'name' => 'phone_delete',
+                'nickname' => 'Excluir telefone',
+            ],
+            [
+                'id' => 5,
                 'name' => 'logs_all',
                 'nickname' => 'Visualizar Log de atividades(todos os usuários)',
             ],

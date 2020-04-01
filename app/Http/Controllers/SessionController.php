@@ -17,7 +17,7 @@ class SessionController extends Controller
         $validator = Validator::make($request->all(), [
             'signin_email' => 'required|email',
             'password' => 'required',
-        ], [            
+        ], [
             'signin_email.required' => 'Preencha seu e-mail',
             'signin_email.email' => 'E-mail inválido',
             'password.required' => 'Preencha sua senha'
@@ -26,7 +26,7 @@ class SessionController extends Controller
         if ($validator->fails()) {
             return back()->withInput($request->all())->withErrors($validator);
         }
-        
+
         $user = User::where('email', $request->signin_email)->first();
 
         if (!$user) {
@@ -36,14 +36,16 @@ class SessionController extends Controller
         if (!Hash::check($request->password, $user->password)) {
             return back()->withInput($request->all())->withErrors(['msg' => 'Senha inválida!']);
         }
-        
+
         $request->session()->forget('form');
 
         $request->session()->put('user.id', $user->id);
         $request->session()->put('user.name', $user->name);
         $request->session()->put('user.email', $user->email);
         $request->session()->put('user.occupation', $user->occupation);
-        
+        if (!empty($user->group_id)) {
+            $request->session()->put('user.group_id', $user->group_id);
+        }
         return redirect('/');
     }
 

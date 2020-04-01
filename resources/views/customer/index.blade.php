@@ -38,15 +38,23 @@
                 </tr>
             </thead>
             <tbody>
+                <?php //dd($permissions) ?>
                 @foreach ($customers as $customer)
                 <tr>
                     <td>{{ $customer->name }}</td>
                     <td>{{ $customer->email }}</td>
                     <td class="text-center">
+                        
                         <button type="button" class="btn"
-                            onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')">
+                        @if (Session::get('user.occupation') == 'admin' || in_array('phone_list', $permissions)))
+                        onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')"
+                            @else
+                            title="Você não tem permissão para ver os telefones"
+                            @endif
+                            >
                             <img src="/phone.png" style="width:28px">
                         </button>
+                        
                     </td>
                 </tr>
                 @endforeach
@@ -68,7 +76,8 @@
             </div>
             <div class="modal-body">
                 <span class="default-color-dark">Detalhes do contato</span>
-                <div id="phone-message" class="alert alert-info mt-1 mb-0">ae</div>
+                <div id="phone-message-warning" class="alert alert-warning mt-1 mb-0"></div>
+                <div id="phone-message" class="alert alert-info mt-1 mb-0"></div>
                 <div class="phone-list">
                     <ul id="phonenumber-list">
                         Carregando...

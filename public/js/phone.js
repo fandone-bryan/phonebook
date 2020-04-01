@@ -1,9 +1,9 @@
 function openPhoneModal(id, name) {
   $("#phone-modal-title").html(name)
   $("#phone-customer-id").val(id)
-  
+
   loadPhoneNumbers(id)
-  
+
   $("#phone-message").hide()
   $("#phoneModal").modal()
 }
@@ -25,6 +25,9 @@ function phoneEdit(id, number) {
 }
 
 function phoneUpdate(event, id) {
+  $("#phone-message-warning").hide()
+  $("#phone-message").hide()
+
   event.preventDefault();
   $("#phone-edit-number").val()
 
@@ -33,7 +36,7 @@ function phoneUpdate(event, id) {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-  
+
   $.ajax({
     url: `/telefones/${id}`,
     type: 'PUT',
@@ -42,12 +45,22 @@ function phoneUpdate(event, id) {
       loadPhoneNumbers($("#phone-customer-id").val())
       $("#phone-message").html('Número atualizado com sucesso!')
       $("#phone-message").show()
+    },
+    complete: function (xhr, textStatus) {
+      if (xhr.status == 403) {
+        $("#phone-message-warning").html('Você não possui permissão para alterar telefone!')
+        $("#phone-message-warning").show()
+      }
     }
   });
-  
+
+
 }
 
 function phoneStore(event) {
+  $("#phone-message-warning").hide()
+  $("#phone-message").hide()
+
   event.preventDefault();
 
   var data = {
@@ -61,14 +74,29 @@ function phoneStore(event) {
     }
   });
 
-  $.post("/telefones", data, function () {
-    loadPhoneNumbers($("#phone-customer-id").val())
-    $("#phone-add-input").val('')
+  $.ajax("/telefones", {
+    type: "POST",
+    data: data,
+    success: function (data, textStatus, xhr) {
+      loadPhoneNumbers($("#phone-customer-id").val())
+      $("#phone-message").html('Número cadastrado com sucesso!')
+      $("#phone-message").show()
+      $("#phone-add-input").val('')
+    },
+    complete: function (xhr, textStatus) {
+      if (xhr.status == 403) {
+        $("#phone-message-warning").html('Você não possui permissão para cadastrar telefone!')
+        $("#phone-message-warning").show()
+      }
+    }
   });
 
 }
 
 function phoneDelete(event, id) {
+  $("#phone-message-warning").hide()
+  $("#phone-message").hide()
+
   event.preventDefault();
 
   var data = {
@@ -83,11 +111,17 @@ function phoneDelete(event, id) {
 
   $.ajax({
     url: `/telefones/${id}`,
-    type: 'DELETE',    
+    type: 'DELETE',
     success: function (result) {
       loadPhoneNumbers($("#phone-customer-id").val())
       $("#phone-message").html('Número excluído com sucesso!')
       $("#phone-message").show()
+    },
+    complete: function (xhr, textStatus) {
+      if (xhr.status == 403) {
+        $("#phone-message-warning").html('Você não possui permissão para excluir telefone!')
+        $("#phone-message-warning").show()
+      }
     }
   });
 }
