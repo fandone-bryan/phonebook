@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Session;
 
+use App\Log;
 use App\User;
 use App\Group;
 
@@ -97,6 +98,11 @@ class UserController extends Controller
         $request->session()->put('user.email', $user->email);
         $request->session()->put('user.occupation', $user->occupation);
 
+        $log = new Log;
+
+        $log->description = 'Login no sistema';
+        $log->user_id = $user->id;
+        $log->save();
 
         return redirect('/');
     }
