@@ -20,7 +20,7 @@
 git clone https://github.com/info-bryanalves/telephone-book.git
 
 # Instale as dependências
-cd telephone-book
+cd phonebook
 composer install
 
 # A partir deste ponto, será necessário criar o banco de dados.
