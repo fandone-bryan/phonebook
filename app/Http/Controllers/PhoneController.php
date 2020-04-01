@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\User;
 use App\Phone;
 use App\Permission;
 use App\GroupPermission;
@@ -14,7 +15,8 @@ class PhoneController extends Controller
     public function index($customerId)
     {
         $permissions = [];
-        $groupPermissions = GroupPermission::where('group_id', Session::get('user.group_id'))->get();
+        $user = User::find(Session::get('user.id'));
+        $groupPermissions = GroupPermission::where('group_id', $user->group_id)->get();
         
         foreach ($groupPermissions as $value) {
             $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
@@ -32,7 +34,8 @@ class PhoneController extends Controller
     public function store(Request $request)
     {
         $permissions = [];
-        $groupPermissions = GroupPermission::where('group_id', Session::get('user.group_id'))->get();
+        $user = User::find(Session::get('user.id'));
+        $groupPermissions = GroupPermission::where('group_id', $user->group_id)->get();
         
         foreach ($groupPermissions as $value) {
             $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
@@ -55,7 +58,8 @@ class PhoneController extends Controller
     public function update(Request $request, $id)
     {
         $permissions = [];
-        $groupPermissions = GroupPermission::where('group_id', Session::get('user.group_id'))->get();
+        $user = User::find(Session::get('user.id'));
+        $groupPermissions = GroupPermission::where('group_id', $user->group_id)->get();
         
         foreach ($groupPermissions as $value) {
             $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
@@ -77,7 +81,8 @@ class PhoneController extends Controller
     public function destroy($id)
     {
         $permissions = [];
-        $groupPermissions = GroupPermission::where('group_id', Session::get('user.group_id'))->get();
+        $user = User::find(Session::get('user.id'));
+        $groupPermissions = GroupPermission::where('group_id', $user->group_id)->get();
         
         foreach ($groupPermissions as $value) {
             $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];

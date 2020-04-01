@@ -44,7 +44,6 @@
                     <td>{{ $customer->name }}</td>
                     <td>{{ $customer->email }}</td>
                     <td class="text-center">
-                        
                         <button type="button" class="btn"
                         @if (Session::get('user.occupation') == 'admin' || in_array('phone_list', $permissions)))
                         onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')"

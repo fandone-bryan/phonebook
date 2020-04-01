@@ -20,15 +20,15 @@ class CustomerController extends Controller
         $permissions = [];
 
         if (Session::get('user.occupation') != 'admin') {
-
+            
             $user = User::find(Session::get('user.id'));
 
             $admin = User::find($user->admin_id);
 
             $customer = Customer::where('user_id', $admin->id)->get();            
 
-            $groupPermissions = GroupPermission::where('group_id', Session::get('user.group_id'))->get();
-
+            $groupPermissions = GroupPermission::where('group_id', $user->group_id)->get();
+            
             foreach ($groupPermissions as $value) {
                 $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
             }
