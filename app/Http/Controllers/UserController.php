@@ -24,6 +24,10 @@ class UserController extends Controller
             ['admin_id', Session::get('user.id')]
         ])->get();
 
+        foreach ($users as $key => $user) {
+            $users[$key]->group = Group::find($user->group_id)->toArray();
+        }
+  
         return view('user.index', ['users' => $users]);
     }
 
@@ -32,12 +36,14 @@ class UserController extends Controller
         if (empty(Group::all()->toArray())) {
             return back()->withErrors(['user_exists' => 'Para poder adicionar um usuário, cadastre ao menos um grupo!']);
         }
-        
+
         if (Session::get('user.occupation') !== 'admin') {
             return back()->withErrors(['user_exists' => 'Somente o administrador pode cadastrar usuários!']);
         }
 
-        return view('user.form');
+        $groups = Group::where('user_id', Session::get('user.id'))->get();
+
+        return view('user.form', ["groups" => $groups]);
     }
 
     public function store(Request $request)
@@ -73,7 +79,7 @@ class UserController extends Controller
         $user->email = $request->signup_email;
         $user->password = Hash::make($request->password);
         $user->occupation = $request->occupation;
-
+        $user->group_id = $request->group_id;
 
         $user->admin_id = !empty($request->session()->get('user')) ? $request->session()->get('user.id') : null;
 
@@ -104,7 +110,9 @@ class UserController extends Controller
 
         $user = User::find($id);
 
-        return view('user.form', ['user' => $user]);
+        $groups = Group::where('user_id', Session::get('user.id'))->get();
+
+        return view('user.form', ['user' => $user, "groups" => $groups]);
     }
 
     public function update(Request $request, $id)
@@ -115,11 +123,11 @@ class UserController extends Controller
         $user->name = $request->name;
 
         if ($user->email != $request->signup_email) {
-            
+
             $emailExists = User::where([
                 ['email', $request->signup_email],
             ])->get()->toArray();
-            
+
             if (!empty($emailExists)) {
                 return back()->withErrors(['user_exists' => 'Este e-mail já esta vinculado a outro usuário!']);
             }
@@ -131,6 +139,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
 
+        $user->group_id = $request->group_id;
         $user->save();
 
         Session::put('message', 'Usuário alterado com sucesso');

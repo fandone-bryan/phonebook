@@ -28,6 +28,7 @@
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">E-mail</th>
+                    <th scope="col">Grupo</th>
                     <th scope="col" class="text-center">Ação</th>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->group["name"] }}</td>
                     <td class="d-flex justify-content-center">
                         <a href="/usuarios/{{$user->id}}/editar" class="mr-2">
                             <img src="/img/edit-icon.png" style="height:36px">

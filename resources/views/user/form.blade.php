@@ -24,6 +24,15 @@
         </div>
         @endif
         <div class="form-group">
+            <select class="form-control" required name="group_id">
+                <option value="">Selecione um grupo</option>
+                @foreach ($groups as $group)
+                <option value="{{$group->id}}" {{!empty($user) && $user->group_id == $group->id ? "selected" : ""}}>
+                    {{$group->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
             <input type="text" class="form-control" name="name" placeholder="Nome"
                 value="{{!empty($user)? $user->name : old('name')}}" required>
         </div>
@@ -34,6 +43,7 @@
         <div class="form-group">
             <input type="password" class="form-control" name="password" placeholder="Senha" value="{{old('password')}}"
                 {{ empty($user) ? "required" : ""}}>
+            <small>{{ !empty($user) ?"Deixe o campo de senha vazio, caso não deseje alterar a senha!" : ""}}</small>
         </div>
         <input type="hidden" name="occupation" value="user">
         {{ csrf_field() }}
