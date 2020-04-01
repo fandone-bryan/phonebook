@@ -1,4 +1,4 @@
-## Telephone Book
+## PhoneBook
 
 ##### Tecnologia utilizada
 [Laravel 5.8](https://laravel.com/docs/5.8)
@@ -29,6 +29,7 @@ composer install
 
 # Obs.: Já deixei o arquivo .env.example igual ao que estou utilizando somente para facilidade na apresentação.
 # Está configurado da seguinte forma: usuário: "root", senha: "",e banco: "phonebook".
+Crie um arquivo chamado .env baseado no .env.example
 
 # Rode as migrations e seeds
 php artisan migrate:refresh --seed
