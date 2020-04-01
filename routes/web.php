@@ -46,4 +46,6 @@ Route::group(['middleware' => 'auth'], function () use ($router) {
     Route::get('/grupos/{id}/editar', 'GroupController@edit'); 
     Route::put('/grupos/{id}', 'GroupController@update'); 
     Route::delete('/grupos/{id}', 'GroupController@destroy'); 
+
+    Route::get('/logs', 'LogController@index');
 });
