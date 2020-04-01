@@ -8,6 +8,8 @@ use App\Log;
 use App\User;
 use App\GroupPermission;
 use App\Permission;
+
+use DB;
 use Session;
 
 class LogController extends Controller
@@ -22,10 +24,25 @@ class LogController extends Controller
             $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
         }
 
-        if (Session::get('user.occupation') !== 'admin' && !in_array('logs_all', $permissions)) {
+        if (Session::get('user.occupation') !== 'admin' && !in_array('logs_all', $permissions)) {            
             $logs = Log::where('user_id', $user->id)->get()->toArray();
         } else {
-            $logs = Log::all()->toArray();
+            if (Session::get('user.occupation') == 'admin') {
+                $users = User::where('admin_id', Session::get('user.id'))->select(DB::raw('group_concat(id) as ids'))->first()->toArray();
+            } else {
+                $users = User::where('admin_id', $user->admin_id)->select(DB::raw('group_concat(id) as ids'))->first()->toArray();
+            }
+
+            $ids = [];
+            
+            if (!empty($users["ids"])) {
+                $ids = explode(',', $users["ids"]);
+            }
+            
+            array_push($ids, Session::get('user.id'));
+
+            $logs = Log::whereIn('user_id', $ids)->get()->toArray();
+            
         }
         $novo = [];
         if (!empty($logs)) {
