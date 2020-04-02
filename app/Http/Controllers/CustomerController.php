@@ -20,15 +20,15 @@ class CustomerController extends Controller
         $permissions = [];
 
         if (Session::get('user.occupation') != 'admin') {
-            
+
             $user = User::find(Session::get('user.id'));
 
             $admin = User::find($user->admin_id);
 
-            $customer = Customer::where('user_id', $admin->id)->get();            
+            $customer = Customer::where('user_id', $admin->id)->get();
 
             $groupPermissions = GroupPermission::where('group_id', $user->group_id)->get();
-            
+
             foreach ($groupPermissions as $value) {
                 $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
             }
@@ -96,7 +96,7 @@ class CustomerController extends Controller
 
             $id = $admin->id;
         }
-
+        
         $result = [];
         if (filter_var($request->filter, FILTER_VALIDATE_EMAIL)) {
             $result = Customer::where(
@@ -106,12 +106,11 @@ class CustomerController extends Controller
                 ]
             )->get();
         } elseif (is_numeric($request->filter)) {
-
+            
             $customers = Customer::where('user_id', $id)
                 ->select(DB::raw('group_concat(id) as ids'))
                 ->first()->toArray();
-
-
+            
             $phones = Phone::where(
                 'number',
                 'like',
@@ -119,11 +118,10 @@ class CustomerController extends Controller
             )->whereIn(
                 'customer_id',
                 explode(',', $customers["ids"])
-            )->get()->toArray();
+            )->select(DB::raw('group_concat(customer_id) as ids'))
+                ->first()->toArray();
 
-            $result = array_map(function ($value) {
-                return Customer::find($value["customer_id"]);
-            }, $phones);
+            $result = Customer::whereIn('id', explode(',', $phones["ids"]))->get();
         } else {
             $result = Customer::where(
                 [

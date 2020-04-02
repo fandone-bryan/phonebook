@@ -128,16 +128,17 @@ function phoneDelete(event, id) {
 
 function loadPhoneNumbers(id) {
   $("#phonenumber-list").html('')
+  $("#phone-message-warning").hide()
+  $.ajax(`/clientes/${id}/telefones`, {
+    success: function (numbers) {
 
-  $.getJSON(`/clientes/${id}/telefones`, function (numbers) {
+      var html = ''
 
-    var html = ''
+      if (numbers.length > 0) {
 
-    if (numbers.length > 0) {
+        for (var number of numbers) {
 
-      for (var number of numbers) {
-
-        html += `
+          html += `
         <li class="mb-2 d-flex align-items-center  justify-content-between">
           <div class="d-flex align-items-center" style="display:flex;">
             <a class="d-flex" href='tel:+55${number.number}'>
@@ -162,12 +163,19 @@ function loadPhoneNumbers(id) {
           </div>
         </li>
         `
+        }
+      } else {
+        html = '<span class="default-color-dark"> Não há telefones cadastrados</span>';
       }
-    } else {
-      html = '<span class="default-color-dark"> Não há telefones cadastrados</span>';
-    }
 
-    $("#phonenumber-list").html(html)
+      $("#phonenumber-list").html(html)
+    },
+    complete: function (xhr, textStatus) {
+      if (xhr.status == 403) {
+        $("#phone-message-warning").html('Você não possui permissão para ver os telefones!')
+        $("#phone-message-warning").show()
+      }
+    }
   });
 
 }

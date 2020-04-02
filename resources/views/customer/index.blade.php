@@ -43,16 +43,14 @@
                     <td>{{ $customer->name }}</td>
                     <td>{{ $customer->email }}</td>
                     <td class="text-center">
-                        <button type="button" class="btn" @if (Session::get('user.occupation')=='admin' ||
-                            in_array('phone_list', $permissions)))
-                            onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')" @else
-                            title="Você não tem permissão para ver os telefones" @endif>
+                        <button type="button" class="btn" onclick="openPhoneModal({{ $customer->id }}, '{{ $customer->name }}')">
                             <img src="/phone.png" style="width:28px">
                         </button>
 
                     </td>
                 </tr>
                 @endforeach
+                
                 @if (empty($customers->toArray()))
                 <tr>
                     <td colspan="3" class="text-center">Nâo há clientes cadastrados.</td>

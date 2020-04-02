@@ -24,6 +24,10 @@ class PhoneController extends Controller
             $permissions[] = (Permission::find($value->permission_id)->toArray())['name'];
         }
 
+        if (Session::get('user.occupation') !== 'admin' && !in_array('phone_list', $permissions)) {                   
+            return response()->json(["msg" => "Permissão insuficiente!"], 403);
+        }
+
         $phones = [];
         
         if (Session::get('user.occupation') == 'admin' || in_array('phone_list', $permissions)) {
